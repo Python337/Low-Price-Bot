@@ -51,8 +51,6 @@ def buttons_price(message):
     bot.send_message(chat_id,
                      f'Отлично. Теперь укажите по ценовому диапозону товар, так как возможно есть несколько разных производителей данного товара:',
                      reply_markup=keyboard)
-
-
 if __name__ == '__main__':
     print('Бот запущен!')
     bot.infinity_polling()
