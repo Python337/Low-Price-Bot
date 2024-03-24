@@ -14,39 +14,34 @@ def welcome(message):
     button_price2 = telebot.types.KeyboardButton(text='Поиск товара')
     keyboard.add(button_price, button_price2)
     bot.send_message(chat_id,
-                     'Добро пожаловать в бота для поиска товаров на складе. Этот бот напишет, где хранится интересующий товар.',
+                     'Добро пожаловать в бота для поиска описания и цены товаров. Также этот бот напишет, где находится интересующий товар и кинет на него ссылку.',
                      reply_markup=keyboard)
+
+
+
+
 @bot.message_handler(func=lambda message: message.text == 'Выход на главное меню')
 def back_to_menu(message):
     welcome(message)
-button_save = telebot.types.InlineKeyboardButton(text="Сохранить",
-                                                     callback_data='save_data')
-@bot.message_handler(
-    func=lambda message: message.text == 'Поиск товара')
-def write_to_support(message):
+
+
+@bot.message_handler(func=lambda message: message.text == 'Поиск товара')
+def buttons(message):
     chat_id = message.chat.id
-    bot.send_message(chat_id, 'Введите название товара: ')
-    bot.register_next_step_handler(message, buttons_price)
+    keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button_price = telebot.types.KeyboardButton(text='Гвозди')
+    button_price2 = telebot.types.KeyboardButton(text='Сверло перовое')
+    button_price3 = telebot.types.KeyboardButton(text='Сверло спиральное')
+    button_price4 = telebot.types.KeyboardButton(text='Саморезы')
+    button_price5 = telebot.types.KeyboardButton(text='Гвозди')
+    button_price6 = telebot.types.KeyboardButton(text='Выход на главное меню')
+    keyboard.add(button_price, button_price2, button_price3, button_price4, button_price5, button_price6)
+    bot.send_message(chat_id, 'Выберите товар из предложенного списка: ', reply_markup=keyboard)
 
 
-def buttons_price(message):
-    chat_id = message.chat.id
-    keyboard = telebot.types.InlineKeyboardMarkup()
-    button_price = telebot.types.InlineKeyboardButton(text="Дешёво",
-        callback_data = 'cheaply')
-
-    button_price2 = telebot.types.InlineKeyboardButton(text="Средняя",
-                                                       callback_data='average')
-
-    button_price3 = telebot.types.InlineKeyboardButton(text="Дорого",
-    callback_data='expensive')
-
-    keyboard.add(button_price, button_price2, button_price3)
-    bot.send_message(chat_id,
-                     f'Отлично. Теперь укажите по ценовому диапозону товар, так как возможно есть несколько разных производителей данного товара:',
-                     reply_markup=keyboard)
-
-
+# @bot.message_handler(func=lambda message: message.text == 'Гвозди')
+# def g():
+#     bot.send_message.chat.id(feather_drill())
 
 
 if __name__ == '__main__':
