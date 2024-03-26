@@ -19,7 +19,6 @@ def welcome(message):
 
 
 
-
 @bot.message_handler(func=lambda message: message.text == 'Выход на главное меню')
 def back_to_menu(message):
     welcome(message)
@@ -37,11 +36,6 @@ def buttons(message):
     button_price6 = telebot.types.KeyboardButton(text='Выход на главное меню')
     keyboard.add(button_price, button_price2, button_price3, button_price4, button_price5, button_price6)
     bot.send_message(chat_id, 'Выберите товар из предложенного списка: ', reply_markup=keyboard)
-
-
-# @bot.message_handler(func=lambda message: message.text == 'Гвозди')
-# def g():
-#     bot.send_message.chat.id(feather_drill())
 
 
 if __name__ == '__main__':
