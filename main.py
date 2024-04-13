@@ -4,7 +4,7 @@ from bd import get
 
 bot = telebot.TeleBot(TOKEN)
 
-
+slov = {}
 @bot.message_handler(commands=['start'])
 def welcome(message):
     chat_id = message.chat.id
@@ -38,6 +38,7 @@ def buttons(message):
 @bot.message_handler(func=lambda message: message.text == 'Сверло перовое')
 def button(message):
     chat_id = message.chat.id
+    slov[chat_id] = message.text
     with open('images/Сверло перовое 20 мм.jpg', 'rb') as file:
         photo = file.read()
     bot.send_photo(chat_id, photo)
@@ -78,3 +79,5 @@ def button(message):
 if __name__ == '__main__':
     print('Бот запущен!')
     bot.infinity_polling()
+
+
