@@ -46,6 +46,7 @@ def button(message):
     bot.send_message(chat_id, a)
 
 
+
 @bot.message_handler(func=lambda message: message.text == 'Сверло спиральное')
 def button(message):
     chat_id = message.chat.id

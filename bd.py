@@ -14,3 +14,4 @@ def get(b):
             a += f'{line[4]}\n\n'
             a += f'{line[6]}\n\n'
             return a
+
