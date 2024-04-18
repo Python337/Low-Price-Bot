@@ -1,21 +1,45 @@
-# import pymysql
-#
-#
-# connection = pymysql.connect(host='147.45.105.54',
-#                              user='gen_user',
-#                              password='mfohmdu%E3$b\k',
-#                              database='favorable_prices',
-# )
-#
-#
-# def feather_drill():
-#     with connection:
-#         cursor = connection.cursor()
-#         cursor.execute('SELECT * FROM Construction_goods')
-#         rows = cursor.fetchall()
-#         a = ''
-#         for line in rows:
-#             i = 0
-#             a += f'{line[i]}\n'
-#             i += 1
-#         return a
+from SQL import connection
+def feather_drills(b):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Feather_drills')
+
+    rows = cursor.fetchall()
+    a = ''
+    for line in rows:
+        if line[0] == b:
+            a += f'{line[1]}\n\n'
+            a += f'{line[2]}\n\n'
+            a += f'{line[3]}\n\n'
+            a += f'{line[4]}\n\n'
+            a += f'{line[5]}\n\n'
+            return a
+def spiral_drills(b):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Spiral_drills')
+
+    rows = cursor.fetchall()
+    a = ''
+    for line in rows:
+        if line[0] == b:
+            a += f'{line[1]}\n\n'
+            a += f'{line[2]}\n\n'
+            a += f'{line[3]}\n\n'
+            a += f'{line[4]}\n\n'
+            a += f'{line[5]}\n\n'
+            return a
+
+
+def discs_for_grinder(b):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Discs_for_grinder')
+
+    rows = cursor.fetchall()
+    a = ''
+    for line in rows:
+        if line[0] == b:
+            a += f'{line[1]}\n\n'
+            a += f'{line[2]}\n\n'
+            a += f'{line[3]}\n\n'
+            a += f'{line[4]}\n\n'
+            a += f'{line[5]}\n\n'
+            return a
