@@ -1,9 +1,9 @@
 import telebot
 from config import TOKEN
 from bd import feather_drills, spiral_drills, discs_for_grinder
-
+# Импортируем TOKEN, данные из таблиц базы данных
 bot = telebot.TeleBot(TOKEN)
-
+# Привязка TOKEN
 @bot.message_handler(commands=['start'])
 def welcome(message):
     chat_id = message.chat.id
@@ -15,11 +15,18 @@ def welcome(message):
                      'Добро пожаловать в бота для поиска описания и цены товаров. Также этот бот напишет, где находится интересующий товар и кинет на него ссылку.',
                      reply_markup=keyboard)
 
+# Начальные действия бота по команде start
+
+# Бот отправляет приветственное письмо пользователю и объясняет ему, что он умеет делать и для чего нужен.
+# Пользователю также на клавиатуре выдаётся 2 кнопки: 'Выход на главное меню', 'Поиск товара'.
 
 @bot.message_handler(func=lambda message: message.text == 'Выход на главное меню')
 def back_to_menu(message):
     welcome(message)
 
+# Вызов кнопки возврата на главное меню.
+
+# Позволяет пользователю вернуться в любой момент работы бота в самое начало его (главное меню).
 
 @bot.message_handler(func=lambda message: message.text == 'Поиск товара')
 def buttons(message):
@@ -32,6 +39,10 @@ def buttons(message):
     keyboard.add(button_price, button_price2, button_price3, button_price5)
     bot.send_message(chat_id, 'Выберите товар из предложенного списка: ', reply_markup=keyboard)
 
+# Действия бота при нажатии на кнопку "Поиск товара" пользователем.
+
+# При нажатии на кнопку "Поиск товара", пользователю выдаётся 3 новых кнопки на клавиатуре: "Свёрла перьевые", "Свёрла спиральные", "Диски для болгарки".
+# И одна кнопка остаётся всегда - "Выход на главное меню". Новые кнопки нужны для того, чтобы выбрать вид строительного товара.
 
 @bot.message_handler(func=lambda message: message.text == 'Свёрла перьевые')
 def button(message):
@@ -39,9 +50,15 @@ def button(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     button_price = telebot.types.KeyboardButton(text='FIT FINCH INDUSTRIAL TOOLS')
     button_price2 = telebot.types.KeyboardButton(text='GEPARD')
-    button_price3 = telebot.types.KeyboardButton(text='Выход на главное меню')
-    keyboard.add(button_price, button_price2, button_price3)
+    button_price3 = telebot.types.KeyboardButton(text='Tool Dreams')
+    button_price4 = telebot.types.KeyboardButton(text='Выход на главное меню')
+    keyboard.add(button_price, button_price2, button_price3, button_price4)
     bot.send_message(chat_id, 'Выберите фирму/производитель товара: ', reply_markup=keyboard)
+
+# Действия бота при нажатии на кнопку "Свёрла перьевые" пользователем.
+
+# При нажатии на кнопку "Свёрла перьевые", пользователю выдаётся 3 новых кнопки на клавиатуре:
+# "FIT FINCH INDUSTRIAL TOOLS", "GEPARD", "Tool Dreams" - это фирмы производителей выбранного ранее вида товаров.
 
     @bot.message_handler(func=lambda message: message.text == 'FIT FINCH INDUSTRIAL TOOLS')
     def button(message):
@@ -53,6 +70,12 @@ def button(message):
         bot.send_message(chat_id, a)
         bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+    # Действия бота при нажатии на кнопку "FIT FINCH INDUSTRIAL TOOLS" - фирма выбранного ранее товара.
+
+    # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+    # А потом из базы данных "favorable_prices" и таблицы "Feather_drills" скидывает пользователю описание, ссылку на этот
+    # товар (в каком магазине купить его и по какой цене).
+
     @bot.message_handler(func=lambda message: message.text == 'GEPARD')
     def button(message):
         chat_id = message.chat.id
@@ -62,6 +85,12 @@ def button(message):
         a = feather_drills(2)
         bot.send_message(chat_id, a)
         bot.send_message(chat_id, 'Вот вся информация о данном товаре')
+
+    # Действия бота при нажатии на кнопку "GEPARD" - фирма выбранного ранее товара.
+
+    # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+    # А потом из базы данных "favorable_prices" и таблицы "Feather_drills" скидывает пользователю описание, ссылку на этот
+    # товар (в каком магазине купить его и по какой цене).
 
     @bot.message_handler(func=lambda message: message.text == 'Tool Dreams')
     def button(message):
@@ -73,6 +102,11 @@ def button(message):
         bot.send_message(chat_id, a)
         bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+    # Действия бота при нажатии на кнопку "Tool Dreams" - фирма выбранного ранее товара.
+
+    # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+    # А потом из базы данных "favorable_prices" и таблицы "Feather_drills" скидывает пользователю описание, ссылку на этот
+    # товар (в каком магазине купить его и по какой цене).
 
 @bot.message_handler(func=lambda message: message.text == 'Свёрла спиральные')
 def button(message):
@@ -84,6 +118,12 @@ def button(message):
     keyboard.add(button_price, button_price2, button_price3)
     bot.send_message(chat_id, 'Выберите тип:', reply_markup=keyboard)
 
+# Действия бота при нажатии на кнопку "Свёрла спиральные" пользователем.
+
+# При нажатии на кнопку "Свёрла спиральные", пользователю выдаётся 2 новых кнопки на клавиатуре:
+# "По металлу", "По дереву" - это кнопки, с помощью которых можно выбрать вид набора свёрел (товара),
+# по какому материалу будет производится сверление.
+
     @bot.message_handler(func=lambda message: message.text == 'По металлу')
     def button(message):
         keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -92,6 +132,11 @@ def button(message):
         button_price3 = telebot.types.KeyboardButton(text='Bosch')
         keyboard.add(button_price, button_price2, button_price3)
         bot.send_message(chat_id, 'Выберите фирму:', reply_markup=keyboard)
+
+    # Действия бота при нажатии на кнопку "По металлу" - вид материала по которому будет производиться сверление.
+
+    # При нажатии на кнопку "По металлу", пользователю выдаётся 3 новых кнопки на клавиатуре:
+    # "Makita", "GARWIN INDUSTRIAL", "Bosch" - это фирмы производителей выбранного ранее вида товаров.
 
         @bot.message_handler(func=lambda message: message.text == 'Makita')
         def button(message):
@@ -103,6 +148,12 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "Makita" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
+
             @bot.message_handler(func=lambda message: message.text == 'GARWIN INDUSTRIAL')
             def button(message):
                 chat_id = message.chat.id
@@ -112,6 +163,12 @@ def button(message):
                 a = spiral_drills(5)
                 bot.send_message(chat_id, a)
                 bot.send_message(chat_id, 'Вот вся информация о данном товаре')
+
+            # Действия бота при нажатии на кнопку "GARWIN INDUSTRIAL" - фирма выбранного ранее товара.
+
+            # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+            # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+            # товар (в каком магазине купить его и по какой цене).
 
             @bot.message_handler(func=lambda message: message.text == 'Bosch')
             def button(message):
@@ -123,6 +180,11 @@ def button(message):
                 bot.send_message(chat_id, a)
                 bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+            # Действия бота при нажатии на кнопку "Bosch" - фирма выбранного ранее товара.
+
+            # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+            # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+            # товар (в каком магазине купить его и по какой цене).
 
     @bot.message_handler(func=lambda message: message.text == 'По дереву')
     def button(message):
@@ -134,6 +196,11 @@ def button(message):
         keyboard.add(button_price, button_price2, button_price3, button_price4)
         bot.send_message(chat_id, 'Выберите фирму:', reply_markup=keyboard)
 
+    # Действия бота при нажатии на кнопку "По дереву" - вид материала по которому будет производиться сверление.
+
+    # При нажатии на кнопку "По дереву", пользователю выдаётся 3 новых кнопки на клавиатуре:
+    # "Patriot", "Vira", "Heller" - это фирмы производителей выбранного ранее вида товаров.
+
         @bot.message_handler(func=lambda message: message.text == 'Patriot')
         def button(message):
             chat_id = message.chat.id
@@ -143,6 +210,12 @@ def button(message):
             a = spiral_drills(1)
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
+
+        # Действия бота при нажатии на кнопку "Patriot" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
 
         @bot.message_handler(func=lambda message: message.text == 'Vira')
         def button(message):
@@ -154,6 +227,12 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "Vira" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
+
         @bot.message_handler(func=lambda message: message.text == 'Heller')
         def button(message):
             chat_id = message.chat.id
@@ -164,6 +243,11 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "Heller" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
 
 @bot.message_handler(func=lambda message: message.text == 'Диски для болгарки')
 def button(message):
@@ -175,6 +259,12 @@ def button(message):
     keyboard.add(button_price, button_price2, button_price3)
     bot.send_message(chat_id, 'Выберите тип диска (для какого вида использования): ', reply_markup=keyboard)
 
+    # Действия бота при нажатии на кнопку "Диски для болгарки" пользователем.
+
+    # При нажатии на кнопку "Диски для болгарки", пользователю выдаётся 2 новых кнопки на клавиатуре:
+    # "Резка", "Шлифовка" - это кнопки, с помощью которых можно выбрать тип диска
+    # (его предназначение, например для резки металла или его шлифовки).
+
     @bot.message_handler(func=lambda message: message.text == 'Резка')
     def button(message):
         chat_id = message.chat.id
@@ -185,6 +275,10 @@ def button(message):
         keyboard.add(button_price, button_price2, button_price3)
         bot.send_message(chat_id, 'Выберите фирму: ', reply_markup=keyboard)
 
+    # Действия бота при нажатии на кнопку "Резка" - тип диска (для каких работ предназначается).
+
+    # При нажатии на кнопку "Резка", пользователю выдаётся 2 новых кнопки на клавиатуре:
+    # "LUGAABRASIV", "ЗУБР" - это фирмы производителей выбранного ранее вида товаров.
 
         @bot.message_handler(func=lambda message: message.text == 'LUGAABRASIV')
         def button(message):
@@ -196,6 +290,12 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "LUGAABRASIV" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Spiral_drills" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
+
         @bot.message_handler(func=lambda message: message.text == 'ЗУБР')
         def button(message):
             chat_id = message.chat.id
@@ -206,6 +306,11 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "ЗУБР" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Discs_for_grinder" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
 
     @bot.message_handler(func=lambda message: message.text == 'Шлифовка')
     def button(message):
@@ -216,6 +321,11 @@ def button(message):
         button_price3 = telebot.types.KeyboardButton(text='Выход на главное меню')
         keyboard.add(button_price, button_price2, button_price3)
         bot.send_message(chat_id, 'Выберите фирму: ', reply_markup=keyboard)
+
+    # Действия бота при нажатии на кнопку "Шлифовка" - тип диска (для каких работ предназначается).
+
+    # При нажатии на кнопку "Шлифовка", пользователю выдаётся 2 новых кнопки на клавиатуре:
+    # "Rexant", "Vira" - это фирмы производителей выбранного ранее вида товаров.
 
         @bot.message_handler(func=lambda message: message.text == 'Rexant')
         def button(message):
@@ -230,6 +340,12 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "Rexant" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Discs_for_grinder" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
+
         @bot.message_handler(func=lambda message: message.text == 'Vira')
         def button(message):
             chat_id = message.chat.id
@@ -243,9 +359,16 @@ def button(message):
             bot.send_message(chat_id, a)
             bot.send_message(chat_id, 'Вот вся информация о данном товаре')
 
+        # Действия бота при нажатии на кнопку "Vira" - фирма выбранного ранее товара.
+
+        # Бот при нажатии на данную кнопку высылает фото данного товара, которое открывается по ссылке из памяти компьютера.
+        # А потом из базы данных "favorable_prices" и таблицы "Discs_for_grinder" скидывает пользователю описание, ссылку на этот
+        # товар (в каком магазине купить его и по какой цене).
 
 if __name__ == '__main__':
     print('Бот запущен!')
     bot.infinity_polling()
+
+# Запуск бота с помощью конструкции if __name__ == '__main__'
 
 
