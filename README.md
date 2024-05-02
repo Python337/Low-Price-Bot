@@ -1,12 +1,12 @@
 <br/>
-  <h3 align="center">Телеграмм бот "Search thin"</h3>
+  <h3 align="center">Телеграмм бот "SearchThings"</h3>
 
   <p align="center">
     Бот написан для поиска определённого товара. Бот должен выдавать всю информацию о товаре.
   </p>
 </p>
 
-Language: ![https://img.shields.io/badge/Python-3.11-blue](https://img.shields.io/badge/Python-3.11-blue)
+Language: ![https://img.shields.io/badge/Python-3.12-blue](https://img.shields.io/badge/Python-3.12-blue)
 
 ## Содержание
 
