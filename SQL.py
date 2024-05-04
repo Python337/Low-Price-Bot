@@ -1,12 +1,7 @@
-"""
-Модуль осуществляет подключение к базе данных SQL
-"""
-import os
-
 import pymysql
 
-connection = pymysql.connect(host=os.getenv('BD_HOST'),
+connection = pymysql.connect(host='147.45.105.54',
                              user='gen_user',
-                             password=os.getenv('BD_PASSWORD'),
-                             database='favorable_prices'
-                             )
+                             password='|2?xzWwGa+KF\\B',
+                             database='favorable_prices',
+)
